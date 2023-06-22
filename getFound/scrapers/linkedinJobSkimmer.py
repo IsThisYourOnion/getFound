@@ -77,7 +77,7 @@ class LinkedinJobLinkSkimmer:
                     print(f'Total HREFs collected so far: {len(self.hrefs)}')
 
     def save_hrefs_to_json(self):
-        with open('linkedin_hrefs.json', 'w') as f:
+        with open('getFound/data/raw_data/linked_hrefs/linkedin_hrefs.json', 'w') as f:
             json.dump(list(self.hrefs), f)
 
 if __name__ == "__main__":
