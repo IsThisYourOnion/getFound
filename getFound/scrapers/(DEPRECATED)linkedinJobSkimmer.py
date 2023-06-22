@@ -1,6 +1,11 @@
 """This scraper pulls hrefs from all job postings on url and saves them. output is fed into BS$/requests
 - based scraper to obtain job descriptions."""
 
+
+
+
+############ USE getFound/scrapers/linkedinURLSkimmer.py ###########
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
