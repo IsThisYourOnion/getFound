@@ -4,7 +4,7 @@ import time
 import json
 import threading
 
-class LinkedInScraper:
+class LinkedinUrlSkimmer:
     def __init__(self):
         self.base_url = 'https://www.linkedin.com/jobs/search/?currentJobId=3617085448&keywords={}&refresh=true'
         self.position_increment = 1
@@ -84,14 +84,14 @@ class LinkedInScraper:
             'linkedin_urls': list(self.hrefs)
         }
 
-        file_name = f'{position.replace(" ", "_")}_linkedin_urls.json'
+        file_path = f'getFound/data/raw_data/linkedin_hrefs/{position.replace(" ", "_")}_linkedin_urls.json'
 
-        with open(file_name, 'w') as file:
+        with open(file_path, 'w') as file:
             json.dump(data, file, indent=4)
 
-        print(f"URLs written to '{file_name}'.")
+        print(f"URLs written to '{file_path}'.")
 
 
-scraper = LinkedInScraper()
-job_positions = ['deep learning scientist', 'data scientist', 'AI engineer']
+scraper = LinkedinUrlSkimmer()
+job_positions = ['deep learning scientist', 'data scientist', 'machine learning engineer']
 scraper.scrape(job_positions, 20000, 8)  # Specify the job positions, number of iterations, and number of threads
