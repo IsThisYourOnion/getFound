@@ -92,6 +92,4 @@ class LinkedinUrlSkimmer:
         print(f"URLs written to '{file_path}'.")
 
 
-scraper = LinkedinUrlSkimmer()
-job_positions = ['deep learning scientist', 'data scientist', 'machine learning engineer']
-scraper.scrape(job_positions, 20000, 8)  # Specify the job positions, number of iterations, and number of threads
+

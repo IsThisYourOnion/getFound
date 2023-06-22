@@ -4,21 +4,8 @@ import json
 import os
 from concurrent.futures import ThreadPoolExecutor
 
-def read_json_files(directory):
-    json_data = []
-    for filename in os.listdir(directory):
-        if filename.endswith('.json'):
-            file_path = os.path.join(directory, filename)
-            with open(file_path, 'r') as file:
-                try:
-                    data = json.load(file)
-                    json_data.append(data)
-                except json.JSONDecodeError:
-                    print(f"Error decoding JSON file: {file_path}")
-    return json_data
-
 class LinkedInScraper:
-    def __init__(self, hrefs, directory='testdata/linkedin_descriptions'):
+    def __init__(self, hrefs, directory='getFound/data/raw_data/linkedin_descriptions'):
         self.hrefs = hrefs
         self.directory = directory
         os.makedirs(directory, exist_ok=True)
@@ -49,8 +36,3 @@ class LinkedInScraper:
             executor.map(self.scrape_url, self.hrefs)
 
 
-# list of hrefs
-hrefs = read_json_files('getFound/data/raw_data/linkedin_hrefs')
-
-scraper = LinkedInScraper(hrefs)
-scraper.scrape_all()
