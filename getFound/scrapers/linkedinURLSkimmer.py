@@ -4,34 +4,42 @@ import time
 import json
 import threading
 
-class LinkedinUrlSkimmer:
+class LinkedInScraper:
     def __init__(self):
-        self.base_url = 'https://www.linkedin.com/jobs/search/?currentJobId=3617085448&keywords=deep%20learning%20scientist&refresh=true'
+        self.base_url = 'https://www.linkedin.com/jobs/search/?currentJobId=3617085448&keywords={}&refresh=true'
         self.position_increment = 1
         self.page_increment = 1
         self.hrefs = set()
         self.lock = threading.Lock()
 
-    def scrape(self, iterations, num_threads):
+    def scrape(self, job_positions, iterations, num_threads):
         threads = []
 
-        for _ in range(iterations):
-            url = self.generate_url()
+        for position in job_positions:
+            print(f"Scraping job position: {position}")
 
-            thread = threading.Thread(target=self.scrape_page, args=(url,))
-            threads.append(thread)
-            thread.start()
+            self.base_url = self.base_url.format(position)
 
-            self.increment_position()
+            for _ in range(iterations):
+                if len(self.hrefs) >= 20000:
+                    break
 
-            if len(threads) % 25 == 0:
-                print("Total hrefs captured:", len(self.hrefs))
+                url = self.generate_url()
 
-        for thread in threads:
-            thread.join()
+                thread = threading.Thread(target=self.scrape_page, args=(url,))
+                threads.append(thread)
+                thread.start()
 
-        self.print_results()
-        self.write_to_json()
+                self.increment_position()
+
+            for thread in threads:
+                thread.join()
+
+            self.print_results()
+            self.write_to_json(position)
+
+            # Reset hrefs for the next job position
+            self.hrefs.clear()
 
     def generate_url(self):
         position = len(self.hrefs) % 25 + 1
@@ -59,22 +67,31 @@ class LinkedinUrlSkimmer:
                 with self.lock:
                     self.hrefs.add(href)
 
+                if len(self.hrefs) % 1000 == 0:
+                    print("1000th href captured:", href)
+
+            if len(self.hrefs) >= 20000:
+                break
+
     def print_results(self):
         print("Total unique hrefs captured:", len(self.hrefs))
         print("Last Position:", len(self.hrefs) % 25 + 1 - self.position_increment)
         print("Last Page Number:", len(self.hrefs) // 25)
         print("Last Href Added:", list(self.hrefs)[-1])
 
-    def write_to_json(self):
+    def write_to_json(self, position):
         data = {
             'linkedin_urls': list(self.hrefs)
         }
 
-        with open('/content/drive/MyDrive/linkedin_urls.json', 'w') as file:
+        file_name = f'{position.replace(" ", "_")}_linkedin_urls.json'
+
+        with open(file_name, 'w') as file:
             json.dump(data, file, indent=4)
 
-        print("URLs written to 'linkedin_urls.json'.")
+        print(f"URLs written to '{file_name}'.")
 
 
-scraper = LinkedinUrlSkimmer()
-scraper.scrape(20000, 8)  # Specify the number of iterations and number of threads
+scraper = LinkedInScraper()
+job_positions = ['deep learning scientist', 'data scientist', 'AI engineer']
+scraper.scrape(job_positions, 20000, 8)  # Specify the job positions, number of iterations, and number of threads
