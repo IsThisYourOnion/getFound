@@ -3,8 +3,8 @@
 
 ## Usage
 
-`linkedinURLSkimmer.py`: pulls hrefs.
-`LinkedInScraper`: pulls descriptions
+* `linkedinURLSkimmer.py`: pulls hrefs.
+* `LinkedInScraper`: pulls descriptions
 
 1. Clone the repository or download the source code.
 2. Open the `getFound/scrapers/linkedinURLSkimmer.py` file in a text editor.
