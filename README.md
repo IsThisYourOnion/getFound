@@ -19,8 +19,6 @@ The scraper will start extracting job listings from LinkedIn for each specified 
 - If you want to change the output directory for JSON files, modify the `file_path` variable in the `write_to_json` method of the `LinkedinURLSkimmer` class.
 - To customize the base LinkedIn URL or other parameters, modify the respective variables in the `LinkedinURLSkimmer` class.
 
-Please note that web scraping should be done responsibly and in compliance with the terms of service of the website being scraped. Ensure that you are aware of and adhere to LinkedIn's terms of service and legal requirements.
-
 ## Contributing
 
 Contributions are welcome! If you find any issues or have suggestions for improvement, please feel free to open an issue or submit a pull request.
