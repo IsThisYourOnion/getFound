@@ -91,8 +91,8 @@ class LinkedInJobScraper:
 
 
 # Usage example:
-params = {"email": "adkstein@gmail.com",
-          "password": "RyEGrP3kVmPyCpH84HA"}
+params = {"email": "***@gmail.com",
+          "password": "****"}
 
 positions = ['deep learning scientist', 'data engineer', 'machine learning engineer']
 
