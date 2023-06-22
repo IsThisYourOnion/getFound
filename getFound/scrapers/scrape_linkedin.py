@@ -52,15 +52,14 @@ class LinkedInJobScraper:
 
             self.driver.get(f"https://www.linkedin.com/jobs/search/?currentJobId=3535505410&keywords={position}&refresh=true")
 
-            self.scroll_to_bottom()
-
+            job_counter = 0
             while True:
                 jobs_lists = self.driver.find_element(By.CLASS_NAME, 'scaffold-layout__list-container')
                 jobs = jobs_lists.find_elements(By.CLASS_NAME, 'jobs-search-results__list-item')
 
                 for job in jobs:
                     job_title = job.find_element(By.CLASS_NAME, 'job-card-list__title').text
-                    job_title = job_title.replace(" ","_")
+                    job_title = job_title.replace(" ", "_")
                     job.click()
                     time.sleep(1)
                     job_desc = self.driver.find_element(By.ID, 'job-details')
@@ -79,6 +78,10 @@ class LinkedInJobScraper:
                         file.write(json_output)
                     counter += 1
 
+                    job_counter += 1
+                    if job_counter % 5 == 0:
+                        self.scroll_a_bit()
+
                 try:
                     next_page_button = self.driver.find_element(By.CLASS_NAME, 'artdeco-pagination__button--next')
                     next_page_button.click()
@@ -86,13 +89,17 @@ class LinkedInJobScraper:
                 except:
                     break
 
+    def scroll_a_bit(self):
+        self.driver.execute_script("window.scrollBy(0, 200);")
+        time.sleep(1)
+
     def close(self):
         self.driver.quit()
 
 
 # Usage example:
-params = {"email": "***@gmail.com",
-          "password": "****"}
+params = {"email": "adkstein@gmail.com",
+          "password": "RyEGrP3kVmPyCpH84HA"}
 
 positions = ['deep learning scientist', 'data engineer', 'machine learning engineer']
 
