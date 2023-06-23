@@ -39,7 +39,7 @@ def main():
         print(f'An error occurred while extracting job IDs: {e}\n')
 
     # Job description extraction phase
-    print('[Phase 3] Starting job data collection...')
+    print('[Phase 3] Starting job data collection. Grab a drink and relax for a while...')
     input_directory_path = os.path.join(script_directory, 'data/linkedin_hrefs/job_ids')
     output_directory_path = os.path.join(script_directory, 'data/linkedin_job_response_raw')
 
