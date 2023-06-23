@@ -23,7 +23,7 @@ Stay tuned for future updates and enhancements to the GetFound project.
 
 
 # LinkedIn Job Scraper
-
+** Working on developing a script that uses the Linkedin api**
 This Python application uses Selenium and BeautifulSoup to automate job searching in LinkedIn. It searches for job listings based on certain keywords, extracts the links of these listings, and then scrapes the job descriptions from these links.
 
 ## Files

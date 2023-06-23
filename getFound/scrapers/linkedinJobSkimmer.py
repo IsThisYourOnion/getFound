@@ -73,7 +73,7 @@ def worker(search_item, hrefs):
 
 if __name__ == "__main__":
     chromedriver_autoinstaller.install()
-    search_items = ['deep learning scientist', 'data scientist', 'AI engineer']
+    search_items = ['deep learning scientist', 'data scientist', 'AI engineer', 'machine learning engineer']
 
     manager = Manager()
     hrefs = manager.list()  # shared list across processes
