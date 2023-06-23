@@ -10,7 +10,7 @@ Through the use of this tool, you can streamline your job search process and inc
 
 This project has a twofold approach:
 
-1. **Data Collection**: Leveraging powerful web scraping libraries in Python, it automates the process of collecting relevant job descriptions from LinkedIn. The script searches for job listings using specific keywords, fetches the job descriptions, and saves them for further processing.
+1. **Data Collection**: Leveraging powerful web scraping libraries in Python, it automates the process of collecting relevant job descriptions from LinkedIn. The script searches for job listings using specific keywords, fetches the job descriptions, and saves them for further processing. (Use V2)
 
 2. **Keyword Extraction and Resume Building**: In the subsequent stage, the tool will parse through the gathered job descriptions, extracting common and essential keywords from these descriptions. These keywords will then be assembled into the master keyword resume, ensuring the resulting resume is highly relevant and attractive to job posting services.
 
