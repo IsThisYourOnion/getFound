@@ -56,16 +56,13 @@ class LinkedinJobLinkSkimmer:
         for panel in panels:
             href = panel.get_attribute("href")
             if "https://www.linkedin.com/company/" not in href:
-                initial_size = len(self.hrefs)
-                self.hrefs.add(href)
-                final_size = len(self.hrefs)
-
-                if initial_size == final_size:
+                if href not in self.hrefs:
+                    self.hrefs.append(href)
+                    self.duplicate_counter = 0
+                else:
                     self.duplicate_counter += 1
                     if self.duplicate_counter == 5:
                         break
-                else:
-                    self.duplicate_counter = 0
 
                 if len(self.hrefs) % 100 == 0:
                     print(f'Total HREFs collected so far: {len(self.hrefs)}')
@@ -83,6 +80,8 @@ if __name__ == "__main__":
 
     with Pool() as pool:
         pool.starmap(worker, [(item, hrefs) for item in search_items])
+
+    # Save hrefs to json
 
     # Save hrefs to json
     with open('/Users/adamkirstein/Code/getFound/getFound/data/raw_data/href_data/linkedin/linkedin_hrefs.json', 'w') as f:

@@ -1,24 +1,34 @@
 from linkedInScraper import LinkedInScraper
-from linkedinURLSkimmer import LinkedinUrlSkimmer
-from utils import JSONDataProcessor
+from linkedinJobSkimmer import worker
+from utils import JSONReader
 import os
 from itertools import chain
+from multiprocessing import Pool, Manager
+import chromedriver_autoinstaller
+import json
 
 
 def main():
-    ## Collect URLs (HREFS) for jobs from specified positions
-    scraper = LinkedinUrlSkimmer()
-    job_positions = ['deep learning scientist', 'data scientist', 'machine learning engineer']
-    scraper.scrape(job_positions, 100, 8)  # Specify the job positions, number of iterations, and number of threads
-    # will stop at 20k hrefs per job item
+    chromedriver_autoinstaller.install()
+    search_items = ['deep learning scientist', 'data scientist', 'AI engineer']
+    manager = Manager()
+    hrefs = manager.list()  # shared list across processes
+    with Pool() as pool:
+        pool.starmap(worker, [(item, hrefs) for item in search_items])
+    # Save hrefs to json
+    with open('/Users/adamkirstein/Code/getFound/getFound/data/raw_data/href_data/linkedin/linkedin_hrefs.json',
+              'w') as f:
+        json.dump(list(hrefs), f)
 
-    # Read in hrefs to extract job descriptions from Utils functions
-    processor = JSONDataProcessor('/Users/adamkirstein/Code/getFound/getFound/data/raw_data/href_data/linkedin/')
-    all_data = processor.read_json_files()
+    # Directory path
+    directory = '/Users/adamkirstein/Code/getFound/getFound/data/raw_data/href_data/linkedin/'
 
-    href_list = list(chain.from_iterable(all_data))
+    # Create an instance of JSONReader
+    json_reader = JSONReader(directory)
 
-    scraper = LinkedInScraper(href_list)
+    # Call the read_json_files() method to obtain the flattened list of JSON data
+    json_data_list = json_reader.read_json_files()
+    scraper = LinkedInScraper(json_data_list)
     scraper.scrape_all()
 
 

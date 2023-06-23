@@ -1,30 +1,31 @@
-import os
-import glob
 import json
+import os
 from itertools import chain
 
-
-class JSONDataProcessor:
-    def __init__(self, directory_path):
-        self.directory_path = directory_path
+class JSONReader:
+    def __init__(self, directory):
+        self.directory = directory
 
     def read_json_files(self):
-        file_path = os.path.join(self.directory_path, '*.json')
-        json_files = glob.glob(file_path)
+        # Get a list of all files in the directory
+        file_list = os.listdir(self.directory)
 
-        all_data = []  # List to store all the data
+        # Filter JSON files
+        json_files = [file for file in file_list if file.endswith('.json')]
 
-        for file in json_files:
-            with open(file, 'r') as f:
-                data = json.load(f)
-                json_values = list(data.values())  # Extract only the JSON values
-                all_data.extend(json_values)  # Extend the list with the JSON values
+        # Initialize an empty list to store JSON contents
+        json_data = []
 
-        return all_data  # Return the collected JSON values list
+        # Iterate over each JSON file and read its contents
+        for file_name in json_files:
+            file_path = os.path.join(self.directory, file_name)
+            with open(file_path, 'r') as json_file:
+                data = json.load(json_file)
+                json_data.append(data)
 
-#
-#
-# processor = JSONDataProcessor('/Users/adamkirstein/Code/getFound/getFound/data/raw_data/href_data/linkedin/')
-# all_data = processor.read_json_files()
-# flattened_list = list(chain.from_iterable(all_data))
+        # Flatten the list of JSON data
+        flattened_data = list(chain.from_iterable(json_data))
+
+        # Return the flattened list of JSON data
+        return flattened_data
 
