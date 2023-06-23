@@ -23,7 +23,7 @@ class LinkedInScraper:
 
                 # save the data to a json file
 
-                write_path = '/Users/adamkirstein/Code/getFound/getFound/data/raw_data/description_data/linkedin/'
+                write_path = '/getFound/data/raw_data/description_data/linkedin/'
                 file_name = f'linkedin_description_{self.hrefs.index(href)}.json'
 
                 with open(write_path + file_name, 'w', encoding='utf-8') as f:

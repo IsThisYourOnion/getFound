@@ -84,5 +84,5 @@ if __name__ == "__main__":
     # Save hrefs to json
 
     # Save hrefs to json
-    with open('/Users/adamkirstein/Code/getFound/getFound/data/raw_data/href_data/linkedin/linkedin_hrefs.json', 'w') as f:
+    with open('/getFound/data/raw_data/href_data/linkedin/linkedin_hrefs.json', 'w') as f:
         json.dump(list(hrefs), f)

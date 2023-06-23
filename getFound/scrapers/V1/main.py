@@ -16,7 +16,7 @@ def main():
     with Pool() as pool:
         pool.starmap(worker, [(item, hrefs) for item in search_items])
     # Save hrefs to json
-    with open('/Users/adamkirstein/Code/getFound/getFound/data/raw_data/href_data/linkedin/linkedin_hrefs.json',
+    with open('/getFound/data/raw_data/href_data/linkedin/linkedin_hrefs.json',
               'w') as f:
         json.dump(list(hrefs), f)
 

@@ -81,7 +81,7 @@ class LinkedinUrlSkimmer:
         }
 
         file_name = f'{self.generate_random_filename()}.json'
-        write_dir = '/Users/adamkirstein/Code/getFound/getFound/data/raw_data/href_data/linkedin/'
+        write_dir = '/getFound/data/raw_data/href_data/linkedin/'
 
         with open(write_dir + file_name, 'w') as file:
             json.dump(data, file)
