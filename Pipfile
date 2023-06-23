@@ -30,6 +30,8 @@ urllib3 = "==2.0.3"
 virtualenv = "==20.23.1"
 virtualenv-clone = "==0.5.7"
 wsproto = "==1.2.0"
+linkedin-api = "==2.0.1"
+lxml = "==4.9.2"
 
 [dev-packages]
 

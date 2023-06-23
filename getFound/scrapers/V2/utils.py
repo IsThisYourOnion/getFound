@@ -3,6 +3,8 @@ import re
 import os
 import json
 import datetime
+import glob
+import json
 
 # Opens href files, extracts job IDs, and stores them as individual text files.
 class ProcessJobIds:
@@ -39,51 +41,37 @@ class ProcessJobIds:
         return self.job_ids
 
 
-
-
-class JsonProcessor:
-    def __init__(self, input_directory, output_directory):
-        self.input_directory = input_directory
-        self.output_directory = output_directory
-        # Create output directory if it doesn't exist
-        if not os.path.exists(output_directory):
-            os.makedirs(output_directory)
+class JSONProcessor:
+    def __init__(self, input_dir, output_dir):
+        self.input_dir = input_dir
+        self.output_dir = output_dir
+        os.makedirs(output_dir, exist_ok=True)
 
     def read_json_files(self):
-        all_data = []
-        for filename in os.listdir(self.input_directory):
-            if filename.endswith('.json'):
-                with open(os.path.join(self.input_directory, filename), 'r') as f:
-                    data = json.load(f)
-                    all_data.append(data)
-        return all_data
+        json_files = glob.glob(self.input_dir + '/*.json')
+        data = []
 
-    def extract_description_and_write(self, all_data):
-        for i, data in enumerate(all_data):
-            description_text = data['description']['text']
-            # Get the current timestamp
-            timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-            # Create a unique filename using the timestamp
-            output_file_name = f'linked_raw_text_file{timestamp}.txt'
-            output_file_path = os.path.join(self.output_directory, output_file_name)
-            with open(output_file_path, 'w') as f:
-                f.write(f'Description from JSON {i+1}: {description_text}\n')
+        for js in json_files:
+            with open(js) as json_file:
+                data.append(json.load(json_file))
 
-    def process_files(self):
+        return data
+
+    def extract_description_and_write(self, data):
+        for i, item in enumerate(data):
+            try:
+                description_text = item['description']['text']
+                timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S%f')
+                with open(f"{self.output_dir}/description_{timestamp}.txt", "w") as f:
+                    f.write(description_text)
+            except KeyError:
+                print(f"KeyError: 'description' or 'text' not found in item {i}")
+
+    def process(self):
         data = self.read_json_files()
         self.extract_description_and_write(data)
 
-
 def run_JsonProcessor():
-    # Get the current directory
-    current_directory = os.getcwd()
-
-    # Define input and output directory paths
-    input_directory_path = os.path.join(current_directory, 'getFound/scrapers/V2/data/linkedin_job_response_raw')
-    output_directory_path = os.path.join(current_directory, 'getFound/data/raw_text')
-
-    # Create an instance of JsonProcessor and process the files
-    processor = JsonProcessor(input_directory_path, output_directory_path)
-    processor.process_files()
-
-
+    # Use the class
+    processor = JSONProcessor('data/linkedin_job_response_raw', 'data/raw_text_files')
+    processor.process()
