@@ -65,23 +65,5 @@ The `linkedInScraper.py` script takes as input the list of job listing URLs obta
     python main.py
     ```
 
-## Dependencies
-This script requires the following Python packages:
-
-- `selenium`
-- `beautifulsoup4`
-- `requests`
-- `concurrent.futures`
-- `multiprocessing`
-- `json`
-- `os`
-- `chromedriver_autoinstaller`
-
-These packages can be installed using pip:
-
-```
-pip install selenium beautifulsoup4 requests futures multiprocessing json os chromedriver_autoinstaller
-```
-
 ## Contact
 For any questions or issues, please open an issue in the GitHub repository or contact the repository owner directly.
