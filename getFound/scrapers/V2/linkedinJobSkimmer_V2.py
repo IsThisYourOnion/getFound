@@ -81,8 +81,3 @@ class LinkedinJobLinkSkimmer:
                 f.write("%s\n" % href)
 
 
-if __name__ == "__main__":
-    chromedriver_autoinstaller.install()
-    search_items = ['deep learning scientist', 'data scientist', 'AI engineer', 'AI Researcher']
-    scraper = LinkedinJobLinkSkimmer(search_items)
-    scraper.perform_search()
