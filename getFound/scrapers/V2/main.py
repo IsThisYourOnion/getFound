@@ -28,7 +28,7 @@ def main():
 
 
     #### JOB DESCRIPTION EXTRACTION ####
-
+    print('Beginning job data collection...')
     # Get the script's current directory
     current_directory = os.path.dirname(os.path.abspath(__file__))
     # Construct the input and output directory paths
@@ -38,3 +38,9 @@ def main():
     scraper = LinkedinJobScraper(params.email, params.password, input_directory_path, output_directory_path)
     job_ids = scraper.get_job_ids()
     scraper.get_jobs(job_ids)
+    print('Finished job data collection...')
+    print("Job's done :D")
+
+
+if __name__ == "__main__":
+    main()
