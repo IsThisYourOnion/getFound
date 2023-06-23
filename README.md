@@ -59,8 +59,5 @@ These packages can be installed using pip:
 pip install selenium beautifulsoup4 requests futures multiprocessing json os chromedriver_autoinstaller
 ```
 
-## Caution
-Use this tool responsibly and make sure you are not violating LinkedIn's Terms of Service by using this tool too aggressively.
-
 ## Contact
 For any questions or issues, please open an issue in the GitHub repository or contact the repository owner directly.
