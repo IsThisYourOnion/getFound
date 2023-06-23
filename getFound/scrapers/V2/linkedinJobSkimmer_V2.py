@@ -6,6 +6,8 @@ import chromedriver_autoinstaller
 import re
 import os
 import params
+
+
 class LinkedinJobLinkSkimmer:
     def __init__(self, search_items):
         self.driver = webdriver.Chrome()
