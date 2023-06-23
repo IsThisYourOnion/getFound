@@ -5,7 +5,7 @@ import time
 import chromedriver_autoinstaller
 import re
 import os
-
+import params
 class LinkedinJobLinkSkimmer:
     def __init__(self, search_items):
         self.driver = webdriver.Chrome()
@@ -29,7 +29,7 @@ class LinkedinJobLinkSkimmer:
             f"https://www.linkedin.com/jobs/search/?currentJobId=3642304035&keywords={position}&refresh=true&position=1&pageNum=0")
         time.sleep(2)
 
-        while len(self.hrefs) < 100:  # Change depending on how many results you want for each search term.
+        while len(self.hrefs) < params.num_jobs:  # Change in params.py depending on how many results you want for each search term.
             self.scroll_and_extract_links()
             self.load_more_jobs()
 
