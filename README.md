@@ -1,6 +1,6 @@
 # GetFound: The Project Premise
 
-The essence of this ongoing project is to gather job descriptions in a focused manner, parse them, and assemble the parsed information into a "Master Keyword Resume". 
+The essence of this ongoing project is to gather topical job descriptions, parse them, and assemble the parsed information into a "Master Keyword Resume". 
 
 This concept of a master keyword resume revolves around the idea of a resume rich in keywords relevant to the specific industry and role. This concept takes advantage of the algorithms used by many job posting services, which scan stored resumes for specific keywords to find suitable candidates. 
 
