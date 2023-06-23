@@ -1,36 +1,26 @@
-"""This scraper pulls hrefs from all job postings on url and saves them. output is fed into BS$/requests
-- based scraper to obtain job descriptions."""
-
-
-
-
-############ USE getFound/scrapers/linkedinURLSkimmer.py ###########
-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import ElementNotVisibleException
 from bs4 import BeautifulSoup
+from multiprocessing import Pool, Manager
 import time
 import chromedriver_autoinstaller
 import json
 
 class LinkedinJobLinkSkimmer:
-    def __init__(self, search_items):
+    def __init__(self, search_item, hrefs):
         self.driver = webdriver.Chrome()
         self.driver.set_window_size(1024, 600)
         self.driver.maximize_window()
-        self.search_items = search_items
-        self.hrefs = set()
+        self.search_item = search_item
+        self.hrefs = hrefs
         self.duplicate_counter = 0
 
     def perform_search(self):
-        for search_item in self.search_items:
-            self.search_position(search_item)
-
+        self.search_position(self.search_item)
         print(f'Total HREFs collected: {len(self.hrefs)}')
-        self.save_hrefs_to_json()
 
     def search_position(self, search_item):
         position = search_item.replace(' ', "%20")
@@ -40,17 +30,16 @@ class LinkedinJobLinkSkimmer:
         while True:
             last_height = self.driver.execute_script("return document.body.scrollHeight")
 
-            while True:
-                self.extract_links_from_panels()
+            self.extract_links_from_panels()
 
-                self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-                time.sleep(2)
-                new_height = self.driver.execute_script("return document.body.scrollHeight")
+            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            time.sleep(1)  # throttle
+            new_height = self.driver.execute_script("return document.body.scrollHeight")
 
-                if new_height == last_height or self.duplicate_counter == 5:
-                    break
+            if new_height == last_height or self.duplicate_counter == 5:
+                break
 
-                last_height = new_height
+            last_height = new_height
 
             try:
                 load_more_button = self.driver.find_element(By.CLASS_NAME, 'infinite-scroller__show-more-button')
@@ -81,12 +70,20 @@ class LinkedinJobLinkSkimmer:
                 if len(self.hrefs) % 100 == 0:
                     print(f'Total HREFs collected so far: {len(self.hrefs)}')
 
-    def save_hrefs_to_json(self):
-        with open('getFound/data/raw_data/linked_hrefs/linkedin_hrefs.json', 'w') as f:
-            json.dump(list(self.hrefs), f)
+def worker(search_item, hrefs):
+    scraper = LinkedinJobLinkSkimmer(search_item, hrefs)
+    scraper.perform_search()
 
 if __name__ == "__main__":
     chromedriver_autoinstaller.install()
     search_items = ['deep learning scientist', 'data scientist', 'AI engineer']
-    scraper = LinkedinJobLinkSkimmer(search_items)
-    scraper.perform_search()
+
+    manager = Manager()
+    hrefs = manager.list()  # shared list across processes
+
+    with Pool() as pool:
+        pool.starmap(worker, [(item, hrefs) for item in search_items])
+
+    # Save hrefs to json
+    with open('/Users/adamkirstein/Code/getFound/getFound/data/raw_data/href_data/linkedin/linkedin_hrefs.json', 'w') as f:
+        json.dump(list(hrefs), f)

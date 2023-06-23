@@ -8,7 +8,6 @@ class LinkedInScraper:
     def __init__(self, hrefs, directory='getFound/data/raw_data/linkedin_descriptions'):
         self.hrefs = hrefs
         self.directory = directory
-        os.makedirs(directory, exist_ok=True)
 
     def scrape_url(self, href):
         try:
@@ -23,8 +22,11 @@ class LinkedInScraper:
                 text = element.get_text()
 
                 # save the data to a json file
-                filename = os.path.join(self.directory, f'linkedin_description_{self.hrefs.index(href)}.json')
-                with open(filename, 'w', encoding='utf-8') as f:
+
+                write_path = '/Users/adamkirstein/Code/getFound/getFound/data/raw_data/description_data/linkedin/'
+                file_name = f'linkedin_description_{self.hrefs.index(href)}.json'
+
+                with open(write_path + file_name, 'w', encoding='utf-8') as f:
                     json.dump({href: text}, f, ensure_ascii=False, indent=4)
             else:
                 print(f'No element found for URL {href}')
@@ -34,5 +36,6 @@ class LinkedInScraper:
     def scrape_all(self):
         with ThreadPoolExecutor() as executor:
             executor.map(self.scrape_url, self.hrefs)
+
 
 

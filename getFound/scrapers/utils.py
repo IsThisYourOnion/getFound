@@ -22,19 +22,9 @@ class JSONDataProcessor:
 
         return all_data  # Return the collected JSON values list
 
-    @staticmethod
-    def get_root_path():
-        current_path = os.path.abspath(__file__)  # Get the absolute path of the current script
-        root_path = os.path.dirname(current_path)  # Get the directory containing the current script
-        base_project_dir = os.path.dirname(root_path)  # Get the directory one step above the root path
-        return base_project_dir
-
-
-# Usage
-base_project_dir = JSONDataProcessor.get_root_path()
-directory_path = os.path.join(base_project_dir, 'data', 'raw_data', 'linkedin_hrefs')
-
-processor = JSONDataProcessor(directory_path)
-all_data = processor.read_json_files()
-flattened_list = list(chain.from_iterable(all_data))
+#
+#
+# processor = JSONDataProcessor('/Users/adamkirstein/Code/getFound/getFound/data/raw_data/href_data/linkedin/')
+# all_data = processor.read_json_files()
+# flattened_list = list(chain.from_iterable(all_data))
 
