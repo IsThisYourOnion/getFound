@@ -1,22 +1,27 @@
-# GetFound: The Project Premise
+# GetFound: Master Keyword Resume Generator
 
-The essence of this ongoing project is to gather topical job descriptions, parse them, and assemble the parsed information into a "Master Keyword Resume". 
+## Project Overview
 
-This concept of a master keyword resume revolves around the idea of a resume rich in keywords relevant to the specific industry and role. This concept takes advantage of the algorithms used by many job posting services, which scan stored resumes for specific keywords to find suitable candidates. 
+GetFound, currently in its first completed version (v1), is an ongoing project revolving around the creation of a **Master Keyword Resume**. It should be noted that GetFound is *not a job-ready resume builder*, but it specifically capitalizes on LinkedIn's resume sharing [feature](https://www.linkedin.com/help/linkedin/answer/a1327213/share-and-manage-your-resumes-with-recruiters?lang=en)
 
-Through the use of this tool, you can streamline your job search process and increase your visibility to recruiters and employers by ensuring your resume contains the most relevant and sought-after keywords in your industry.
+The objective of GetFound is to devise a resume abundant in industry and role-specific keywords. This strategy leverages the algorithmic systems used by many job posting platforms that analyze stored resumes for relevant keywords to locate suitable candidates.
 
-## How GetFound Works
+By utilizing **Large Language Models (LLMs)** for key phrase extraction and text similarity, GetFound ensures that the output template's resultant keywords align closely with your particular search queries. The outcome is an enhanced job search process and increased visibility of your resume to recruiters and employers, thanks to the incorporation of the most relevant and in-demand industry keywords.
 
-This project has a twofold approach:
+## Workflow
 
-1. **Data Collection**: Leveraging powerful web scraping libraries in Python, it automates the process of collecting relevant job descriptions from LinkedIn. The script searches for job listings using specific keywords, fetches the job descriptions, and saves them for further processing.
+GetFound's operation is split into two primary phases:
 
-2. **Keyword Extraction and Resume Building**: In the subsequent stage, the tool will parse through the gathered job descriptions, extracting common and essential keywords from these descriptions. These keywords will then be assembled into the master keyword resume, ensuring the resulting resume is highly relevant and attractive to job posting services.
+1. **Data Collection**: By leveraging powerful Python web scraping libraries, the project automates the collection of relevant job descriptions from LinkedIn. It searches for job postings using specific keywords, fetches the descriptions, and stores them for further processing.
 
-GetFound is still under development, and future updates will include resume building functionalities. 
+2. **Keyword Extraction and Resume Compilation**: In this subsequent phase, GetFound processes the gathered job descriptions using LLMs to identify common and critical keywords. These keywords are then integrated into the master keyword resume, ensuring it is highly relevant and attractive to job posting services.
 
-This project simplifies the labor-intensive process of customizing a resume for each job application, and it can dramatically enhance a candidate's visibility in job search engines and platforms. By automating these steps, GetFound aims to make the job hunting process more efficient and effective. 
+While GetFound continues to evolve, its current version (v1) already includes resume building features. However, these are not intended for immediate job applications. Instead, it is specifically designed to enhance the resume sharing feature of LinkedIn. Here, your profile gains greater visibility in search results when recruiters seek skills and experiences matching the data in the resumes you've saved over the past two years.
 
-Stay tuned for future updates and enhancements to the GetFound project.
+## Project Impact
 
+By automating the often laborious process of customizing a resume for each job application, GetFound can significantly boost a candidate's visibility across job search platforms and make job hunting more efficient and effective.
+
+## Future Developments
+
+Stay tuned for future updates and improvements to the GetFound project. This tool is committed to making your job search more effective, especially in the context of LinkedIn's resume sharing feature.

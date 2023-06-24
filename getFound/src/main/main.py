@@ -3,8 +3,8 @@ from getFound.src.modules.jobDetailExtractor import runJobManager
 from getFound.src.modules.textProcessor import runJobProcessor
 from getFound.src.modules.keywordExtractor import keywords
 from getFound.src.modules.gptExtractor import GPTKeywords
-
-
+from getFound.templates.templater import toPdf
+from getFound.src.modules.keywordSimilarity import KeywordSim
 
 def main():
     """
@@ -22,6 +22,12 @@ def main():
 
     print('[Phase 4] Extracting keywords from job data...')
     keywords()
+
+    print('[Phase 5] Performing similarity extraction...')
+    KeywordSim()
+
+    print('[Phase 6] Formulating Pdf...')
+    toPdf()
 
 
 if __name__ == "__main__":

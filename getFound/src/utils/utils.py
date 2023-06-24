@@ -67,3 +67,6 @@ def clean_text(input_text):
     # Minimize unnecessary spaces and remove newline characters
     cleaned_text = re.sub(r'\s+', ' ', no_stopwords_text).strip().replace('\n', '')
     return cleaned_text
+
+def remove_duplicates(input_list):
+    return list(dict.fromkeys(input_list))
