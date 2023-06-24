@@ -12,7 +12,7 @@ class PDFCreator:
         # Adjusted paths
         self.base_path = Path(__file__).resolve().parents[2]  # Gets the absolute path of the root project folder
         self.template_path = self.base_path / 'getFound' / 'templates'  # Constructs path to the templates folder
-        self.output_path = self.template_path / 'example_output.pdf'  # Constructs path to the output pdf file
+        self.output_path = self.template_path / 'output.pdf'  # Constructs path to the output pdf file
         self.input_path = self.base_path / 'getFound' / 'data' / 'job_keywords' / 'staging_keywords' / 'keywords.txt'
 
         self.keywords = self.get_keywords()
