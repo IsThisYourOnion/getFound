@@ -14,7 +14,7 @@ This project has a twofold approach:
 
 2. **Keyword Extraction and Resume Building**: In the subsequent stage, the tool will parse through the gathered job descriptions, extracting common and essential keywords from these descriptions. These keywords will then be assembled into the master keyword resume, ensuring the resulting resume is highly relevant and attractive to job posting services.
 
-GetFound is still under development, and future updates will include the keyword extraction and resume building functionalities. 
+GetFound is still under development, and future updates will include resume building functionalities. 
 
 This project simplifies the labor-intensive process of customizing a resume for each job application, and it can dramatically enhance a candidate's visibility in job search engines and platforms. By automating these steps, GetFound aims to make the job hunting process more efficient and effective. 
 
