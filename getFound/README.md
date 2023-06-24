@@ -1,53 +1,80 @@
-# LinkedIn Job Scraper
+# getFound
 
-This project automates the process of searching, skimming, and extracting job data from LinkedIn. It also includes functionality to extract keywords from the job data for better understanding of job requirements.
+getFound is a comprehensive job search utility designed to help users search for jobs via LinkedIn, extract details from job descriptions, perform keyword analysis, and generate a PDF report. It uses various libraries like `openai`, `transformers`, `selenium`, and more to execute its tasks.
 
-## Features
+## Overview of modules
 
-1. Collects job links from LinkedIn based on given search terms.
-2. Extracts job data from the collected links.
-3. Stores job descriptions in text files.
-4. Extracts keywords from the job data.
+### TextProcessor
 
-## Dependencies
+This class is used to process chunks of text with OpenAI's GPT-3. It is used in the `GPTKeywords` function to process raw job descriptions and extract relevant keywords. 
 
-The script is built in Python and uses a number of libraries. Install the dependencies with the following command:
+### GPTKeywords
 
-```bash
-pip install selenium joblib transformers linkedin_api
+This function serves as a comprehensive process to utilize the `TextProcessor` class, read raw job text, process it, and save the processed results into a JSON file.
+
+### JobManager
+
+This class is used to interact with LinkedIn's API, clean job IDs from LinkedIn job links, and retrieve job data. The `pull_linkedin_data` function concurrently retrieves job data and writes it to JSON files.
+
+### runJobManager
+
+This function serves as a comprehensive process to utilize the `JobManager` class, read LinkedIn hrefs, clean the hrefs into job IDs, and pull job data from LinkedIn.
+
+### KeyphraseExtractionPipeline
+
+This class is a pipeline for the extraction of key phrases from text. It's used in the `keywords` function to process job descriptions and extract relevant key phrases.
+
+### keywords
+
+This function reads raw job text, cleans the text, chunks it, and applies the `KeyphraseExtractionPipeline` to each chunk. The extracted keyphrases are then written to a text file.
+
+### KeywordAnalyzer
+
+This class is used to analyze the relevance of keywords with respect to predefined search terms. This is done by calculating the cosine similarity between the embeddings of keywords and search terms. Keywords with a cosine similarity score above a certain threshold are considered related.
+
+### KeywordSim
+
+This function uses the `KeywordAnalyzer` class to analyze extracted keywords and write related keywords to a text file.
+
+### LinkedinJobLinkSkimmer
+
+This class is used to automatically skim job links from LinkedIn. It opens a Chrome window, navigates to LinkedIn, and automatically scrolls through the page while extracting job links. The job links are then saved to a text file.
+
+### collect_job_links
+
+This function initiates a `LinkedinJobLinkSkimmer` instance and begins the job link collection process.
+
+### main_job_links
+
+This function parallelizes the job link collection process for multiple search terms.
+
+### JobProcessor
+
+This class reads job data (in JSON format) and writes the job descriptions to individual text files.
+
+### runJobProcessor
+
+This function initiates a `JobProcessor` instance and begins the job data reading and job description writing process.
+
+### main
+
+This is the main function that sequentially calls other functions and classes to perform the entire job search, data extraction, and keyword analysis process. The phases are:
+
+1. Collect LinkedIn job links.
+2. Extract job data from LinkedIn.
+3. Extract job descriptions from the job data.
+4. Extract keywords from job descriptions.
+5. Analyze the similarity of the keywords.
+6. Formulate a PDF report based on the results.
+
+## Usage
+
+To run the entire pipeline, just execute the Python script from the command line:
+
+```
+python script_name.py
 ```
 
-You also need to have a Google Chrome browser installed as the Selenium webdriver used in this script is Chrome-based.
+Replace `script_name.py` with the name of the Python script file.
 
-## Quick Start
-
-1. Configure your parameters in the `getFound/src/config.py` file. The parameters include the number of jobs you want to search, search terms, and your LinkedIn login credentials (email and password).
-
-2. To run the script, navigate to the project directory and run:
-
-```bash
-python3 main.py
-```
-
-## How It Works
-
-The script works in four main phases:
-
-- **Phase 1** - LinkedIn job link collection: It collects job links from LinkedIn based on your search terms.
-- **Phase 2** - Job data extraction: It extracts job data from the collected LinkedIn job links.
-- **Phase 3** - Extracting job descriptions: The job descriptions are extracted and stored in text files for further processing.
-- **Phase 4** - Extracting keywords: The script then extracts keywords from the job data, giving you a clear picture of the key requirements across different jobs.
-
-The output of the script includes the links to the jobs collected, extracted job data in JSON format, job descriptions stored in text files, and extracted keywords.
-
-## Output
-
-The output data will be stored in the `data` directory. This includes job links from LinkedIn, job data in JSON format, job descriptions in text files, and extracted keywords.
-
-## Troubleshooting
-
-Make sure the parameters in `getFound/src/config.py` are set correctly. If the script is not running, check for error messages in the console. If you see an error about Selenium not being able to open the browser, check your Chrome version and make sure it's compatible with the webdriver version.
-
-## License
-
-This project is licensed under the MIT License - see the `LICENSE` file for details.
+> Note: The script needs to have necessary parameters set in the `getFound.src.config.params` configuration file.
