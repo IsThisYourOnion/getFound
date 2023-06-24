@@ -1,6 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import ElementNotVisibleException
+from selenium.common.exceptions import ElementNotVisibleException, TimeoutException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 import re
 import os
@@ -33,7 +35,8 @@ class LinkedinJobLinkSkimmer:
             self.scroll_and_extract_links()
             if len(self.hrefs) >= params.num_jobs:
                 break
-            self.load_more_jobs()
+            if not self.load_more_jobs():
+                break
 
     def scroll_and_extract_links(self):
         last_height = self.driver.execute_script("return document.body.scrollHeight")
@@ -50,12 +53,16 @@ class LinkedinJobLinkSkimmer:
 
     def load_more_jobs(self):
         try:
-            load_more_button = self.driver.find_element(By.CLASS_NAME, 'infinite-scroller__show-more-button')
+            load_more_button = WebDriverWait(self.driver, 20).until(
+                EC.presence_of_element_located((By.CLASS_NAME, 'infinite-scroller__show-more-button'))
+            )
             if load_more_button.is_displayed():
                 load_more_button.click()
                 time.sleep(2)
-        except ElementNotVisibleException:
+                return True
+        except (ElementNotVisibleException, TimeoutException):
             pass
+        return False
 
     def extract_links_from_panels(self):
         panel_container = self.driver.find_element(By.XPATH, '//*[@id="main-content"]/section[2]')
