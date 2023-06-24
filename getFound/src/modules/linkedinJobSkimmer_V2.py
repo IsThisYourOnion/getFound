@@ -2,11 +2,10 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import ElementNotVisibleException
 import time
-import chromedriver_autoinstaller
 import re
 import os
-import params
-
+from getFound.archive import params
+import chromedriver_autoinstaller
 
 class LinkedinJobLinkSkimmer:
     def __init__(self, search_items):
@@ -70,16 +69,34 @@ class LinkedinJobLinkSkimmer:
                     self.duplicate_counter = 0
 
     def save_hrefs_to_txt(self):
-        directory = "data/linkedin_hrefs"
-        filename = re.sub('[^a-zA-Z0-9 \n\.]', '', self.current_search_term)  # removes special characters
-        filename = f'{directory}/{filename}_{int(time.time())}.txt'
+        current_file_path = os.path.abspath(__file__)
+        project_directory = os.path.dirname(os.path.dirname(current_file_path))
+        data_directory = os.path.join(os.path.dirname(project_directory), "data")
+        directory = os.path.join(data_directory, "linkedin_hrefs")
 
         # Create the directory if it doesn't exist
         if not os.path.exists(directory):
             os.makedirs(directory)
 
-        with open(filename, 'w') as f:
+        filename = re.sub('[^a-zA-Z0-9 \n\.]', '', self.current_search_term)  # removes special characters
+        filename = f'{filename}_{int(time.time())}.txt'
+        filepath = os.path.join(directory, filename)
+
+        with open(filepath, 'w') as f:
             for href in self.hrefs:
                 f.write("%s\n" % href)
 
 
+def collect_job_links():
+    """
+    Collects job links from LinkedIn
+    """
+    chromedriver_autoinstaller.install()
+    search_items = params.search_terms
+    link_skimmer = LinkedinJobLinkSkimmer(search_items)
+
+    try:
+        link_skimmer.perform_search()
+        print(f'Successfully finished collecting job links. Data stored.\n')
+    except Exception as e:
+        print(f'An error occurred while collecting links: {e}\n')

@@ -2,7 +2,8 @@ import os
 import glob
 import json
 from linkedin_api import Linkedin
-import params
+
+
 class LinkedinJobScraper:
     def __init__(self, username, password, input_directory, output_directory):
         self.api = Linkedin(username, password)
@@ -30,14 +31,4 @@ class LinkedinJobScraper:
         with open(f'{self.output_directory}/job_{job_id}.json', 'w') as json_file:
             json.dump(data, json_file)
 
-# # Get the script's current directory
-# current_directory = os.path.dirname(os.path.abspath(__file__))
-#
-# # Construct the input and output directory paths
-# input_directory_path = os.path.join(current_directory, 'data/linkedin_hrefs/job_ids')
-# output_directory_path = os.path.join(current_directory, 'data/linkedin_job_response_raw')
-#
-# # Instantiate the scraper with the constructed paths
-# scraper = LinkedinJobScraper(params.email, params.password, input_directory_path, output_directory_path)
-# job_ids = scraper.get_job_ids()
-# scraper.get_jobs(job_ids)
+

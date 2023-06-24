@@ -19,3 +19,4 @@ GetFound is still under development, and future updates will include the keyword
 This project simplifies the labor-intensive process of customizing a resume for each job application, and it can dramatically enhance a candidate's visibility in job search engines and platforms. By automating these steps, GetFound aims to make the job hunting process more efficient and effective. 
 
 Stay tuned for future updates and enhancements to the GetFound project.
+
