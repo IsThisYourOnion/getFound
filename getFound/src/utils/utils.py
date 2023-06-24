@@ -3,13 +3,14 @@ import os
 import nltk
 
 from nltk.corpus import stopwords
-
-nltk.download('stopwords')
 from pathlib import Path
 import glob
 import json
 import re
 
+nltk.download('stopwords')
+
+stopwords_list = set(stopwords.words('english'))
 
 class DataManager:
     def __init__(self):
@@ -62,7 +63,7 @@ def clean_text(input_text):
     # Remove alphanumeric sequences (sequences that include both letters and numbers)
     no_alnum_text = re.sub(r'\b(?=\w*\d)\w+\b', '', no_punct_text)
     # Remove stopwords
-    no_stopwords_text = ' '.join([word for word in no_alnum_text.split() if word not in stopwords])
+    no_stopwords_text = ' '.join([word for word in no_alnum_text.split() if word not in stopwords_list])
     # Minimize unnecessary spaces and remove newline characters
     cleaned_text = re.sub(r'\s+', ' ', no_stopwords_text).strip().replace('\n', '')
     return cleaned_text

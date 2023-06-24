@@ -11,14 +11,14 @@ def main():
     Main function to handle LinkedIn job scraping operations
     """
 
-    print('\n[Phase 1] Initiating LinkedIn job link collection...')
-    collect_job_links()
-
-    print('[Phase 2] Starting job data extraction...')
-    runJobManager()
-
-    print('[Phase 3] Extracting job descriptions to files...')
-    runJobProcessor()
+    # print('\n[Phase 1] Initiating LinkedIn job link collection...')
+    # collect_job_links()
+    #
+    # print('[Phase 2] Starting job data extraction...')
+    # runJobManager()
+    #
+    # print('[Phase 3] Extracting job descriptions to files...')
+    # runJobProcessor()
 
     print('[Phase 4] Extracting keywords from job data...')
     keywords()
