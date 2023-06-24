@@ -6,39 +6,41 @@ import re
 import os
 from getFound.src.config import params
 import chromedriver_autoinstaller
-
+from multiprocessing import Pool
+from joblib import Parallel, delayed
 
 class LinkedinJobLinkSkimmer:
-    def __init__(self, search_items):
+    def __init__(self, search_item):
         self.driver = webdriver.Chrome()
         self.driver.set_window_size(1024, 600)
         self.driver.maximize_window()
-        self.search_items = search_items
+        self.search_item = search_item
         self.hrefs = set()
         self.duplicate_counter = 0
-        self.current_search_term = ""
 
     def perform_search(self):
-        for search_item in self.search_items:
-            self.current_search_term = search_item
-            self.search_position(search_item)
-            self.save_hrefs_to_txt()
-            self.hrefs.clear()
+        self.search_position(self.search_item)
+        self.save_hrefs_to_txt()
+        self.hrefs.clear()
 
     def search_position(self, search_item):
         position = search_item.replace(' ', "%20")
         self.driver.get(
-            f"https://www.linkedin.com/jobs/search/?currentJobId=3642304035&keywords={position}&refresh=true&position=1&pageNum=0")
+            f"https://www.linkedin.com/jobs/search?keywords={position}&location=United%20States&geoId=103644278&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0")
         time.sleep(2)
 
-        while len(self.hrefs) < params.num_jobs:  # Change in params.py depending on how many results you want for each search term.
+        while len(self.hrefs) < params.num_jobs:
             self.scroll_and_extract_links()
+            if len(self.hrefs) >= params.num_jobs:
+                break
             self.load_more_jobs()
 
     def scroll_and_extract_links(self):
         last_height = self.driver.execute_script("return document.body.scrollHeight")
         while True:
             self.extract_links_from_panels()
+            if len(self.hrefs) >= params.num_jobs:
+                break
             self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             time.sleep(2)
             new_height = self.driver.execute_script("return document.body.scrollHeight")
@@ -68,6 +70,8 @@ class LinkedinJobLinkSkimmer:
                     self.duplicate_counter += 1
                 else:
                     self.duplicate_counter = 0
+                if len(self.hrefs) >= params.num_jobs:
+                    break
 
     def save_hrefs_to_txt(self):
         current_file_path = os.path.abspath(__file__)
@@ -79,7 +83,7 @@ class LinkedinJobLinkSkimmer:
         if not os.path.exists(directory):
             os.makedirs(directory)
 
-        filename = re.sub('[^a-zA-Z0-9 \n\.]', '', self.current_search_term)  # removes special characters
+        filename = re.sub('[^a-zA-Z0-9 \n\.]', '', self.search_item)
         filename = f'{filename}_{int(time.time())}.txt'
         filepath = os.path.join(directory, filename)
 
@@ -87,17 +91,17 @@ class LinkedinJobLinkSkimmer:
             for href in self.hrefs:
                 f.write("%s\n" % href)
 
-
-def collect_job_links():
-    """
-    Collects job links from LinkedIn
-    """
+def collect_job_links(search_item):
     chromedriver_autoinstaller.install()
-    search_items = params.search_terms
-    link_skimmer = LinkedinJobLinkSkimmer(search_items)
+    link_skimmer = LinkedinJobLinkSkimmer(search_item)
 
     try:
         link_skimmer.perform_search()
         print(f'Successfully finished collecting job links. Data stored.\n')
     except Exception as e:
         print(f'An error occurred while collecting links: {e}\n')
+
+def main_job_links():
+    search_items = params.search_terms
+    Parallel(n_jobs=-1)(delayed(collect_job_links)(item) for item in search_items)
+
