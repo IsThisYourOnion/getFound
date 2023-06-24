@@ -28,11 +28,12 @@ class TextProcessor:
 
     def process_text(self):
         """Divide the text into chunks and process each chunk"""
-        text_chunks = self._chunk_text(self.full_text_corpus, 2000)
+        text_chunks = self._chunk_text(self.full_text_corpus, 750)
         results = []
         for chunk in text_chunks:
             result = self._extract_data(chunk)
             results.append(result)
+
         return results
 
 
@@ -44,4 +45,7 @@ def GPTKeywords():
     cleaned_combined_string = clean_text(combined_string)
     # usage example
     processor = TextProcessor(params.open_ai_key, cleaned_combined_string)
-    manager.write_data('job_keywords', 'extracted_keywords', 'txt', processor)
+    processed_results = processor.process_text()  # process the text and get results
+    manager.write_data('job_keywords', 'extracted_keywords', 'json', processed_results)  # write results into a json file
+    return processed_results  # if you want to return the processed results
+
