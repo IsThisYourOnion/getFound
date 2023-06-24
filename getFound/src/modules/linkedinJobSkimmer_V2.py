@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import ElementNotVisibleException, TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -13,7 +14,9 @@ from joblib import Parallel, delayed
 
 class LinkedinJobLinkSkimmer:
     def __init__(self, search_item):
-        self.driver = webdriver.Chrome()
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        self.driver = webdriver.Chrome(options=chrome_options)
         self.driver.set_window_size(1024, 600)
         self.driver.maximize_window()
         self.search_item = search_item
@@ -111,4 +114,3 @@ def collect_job_links(search_item):
 def main_job_links():
     search_items = params.search_terms
     Parallel(n_jobs=-1)(delayed(collect_job_links)(item) for item in search_items)
-
