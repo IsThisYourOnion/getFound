@@ -9,6 +9,7 @@ getFound is a comprehensive job search utility designed to help users search for
 This class is used to process chunks of text with OpenAI's GPT-3. It is used in the `GPTKeywords` function to process raw job descriptions and extract relevant keywords. 
 
 ### GPTKeywords
+```Note this is not curerntly immplemmented```
 
 This function serves as a comprehensive process to utilize the `TextProcessor` class, read raw job text, process it, and save the processed results into a JSON file.
 
