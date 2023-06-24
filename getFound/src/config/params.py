@@ -14,6 +14,6 @@ email = "EMAIL"
 
 # User's password
 # WARNING: Storing passwords in plain text is not secure.
-password = "EMAIL"
+password = "PASSWORD"
 
-num_jobs = 20
+num_jobs = 10

@@ -4,8 +4,9 @@ from selenium.common.exceptions import ElementNotVisibleException
 import time
 import re
 import os
-from getFound.archive import params
+from getFound.src.config import params
 import chromedriver_autoinstaller
+
 
 class LinkedinJobLinkSkimmer:
     def __init__(self, search_items):
