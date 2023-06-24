@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html>
+<body>
+
+<table>
+  <tr>
+    {% for column in columns %}
+    <td>
+      <ul>
+        {% for item in column %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </td>
+    {% endfor %}
+  </tr>
+</table>
+
+</body>
+</html>
