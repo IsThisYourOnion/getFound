@@ -21,7 +21,7 @@ def main():
     runJobProcessor()
 
     print('[Phase 4] Extracting keywords from job data...')
-    GPTKeywords()
+    keywords()
 
 
 if __name__ == "__main__":

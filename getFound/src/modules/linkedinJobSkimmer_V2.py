@@ -29,7 +29,7 @@ class LinkedinJobLinkSkimmer:
             f"https://www.linkedin.com/jobs/search?keywords={position}&location=United%20States&geoId=103644278&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0")
         time.sleep(2)
 
-        while len(self.hrefs) < params.num_jobs:
+        while len(self.hrefs) < params.num_jobs: # change in params.py
             self.scroll_and_extract_links()
             if len(self.hrefs) >= params.num_jobs:
                 break
