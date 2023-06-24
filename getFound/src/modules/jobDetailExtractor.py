@@ -4,26 +4,33 @@ import re
 from getFound.src.config import params
 
 class JobManager:
-    def __init__(self, email, password, manager=None):
+    def __init__(self, email, password):
+        self.manager = DataManager()
         self.api = Linkedin(email, password)
-        self.manager = DataManager() if manager is None else manager
-        self.job_ids = []
-        self.pattern = re.compile(r'-?(\d{10})\?')
 
-    def read_data(self, filename, filetype, data_has_header=False):
-        job_links = self.manager.read_data(filename, filetype, data_has_header)
-        for url in job_links:
-            match = self.pattern.search(url)
+    def clean_job_ids(self, job_links):
+        pattern = re.compile(r'-?(\d{10})\?')
+        flattened_list = [element for sublist in job_links for element in sublist]
+        job_ids = []
+        for url in flattened_list:
+            match = pattern.search(url)
             if match:
-                self.job_ids.append(match.group(1))
+                job_ids.append(match.group(1))
+        return job_ids
 
-    def fetch_and_write_job_data(self, dirname):
-        for job in self.job_ids:
+    def pull_linkedin_data(self, job_ids):
+        for job in job_ids:
             profile = self.api.get_job(job)
             file_name = f'job_{job}'
-            self.manager.write_data(dirname, file_name, 'json', profile)
+            self.manager.write_data('linked_job_data', file_name, 'json', profile)
+
 
 def runJobManager():
-    job_manager = JobManager(params.email, params.password)
-    job_manager.read_data('linkedin_hrefs', 'txt', True)
-    job_manager.fetch_and_write_job_data('linked_job_data')
+    # Usage example:
+    email = params.email
+    password = params.password
+    linkedin_manager = JobManager(email, password)
+    job_links = linkedin_manager.manager.read_data('linkedin_hrefs', 'txt', True)
+    cleaned_ids = linkedin_manager.clean_job_ids(job_links)
+    linkedin_manager.pull_linkedin_data(cleaned_ids)
+
