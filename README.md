@@ -12,7 +12,7 @@ By utilizing **Large Language Models (LLMs)** for key phrase extraction and text
 
 GetFound's operation is split into two primary phases:
 
-1. **Data Collection**: By leveraging powerful Python web scraping libraries, the project automates the collection of relevant job descriptions from LinkedIn. It searches for job postings using specific keywords, fetches the descriptions, and stores them for further processing.
+1. **Data Collection**: By leveraging powerful Python web scraping libraries, the project automates the collection of relevant job descriptions from LinkedIn. It searches for job postings using specific keywords, fetches the descriptions, and stores them for further processing. Keywords can be updated in the config/params.py file. 
 
 2. **Keyword Extraction and Resume Compilation**: In this subsequent phase, GetFound processes the gathered job descriptions using LLMs to identify common and critical keywords. These keywords are then integrated into the master keyword resume, ensuring it is highly relevant and attractive to job posting services.
 
