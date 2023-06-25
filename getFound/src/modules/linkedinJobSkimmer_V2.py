@@ -105,11 +105,12 @@ def collect_job_links(search_item):
     chromedriver_autoinstaller.install()
     link_skimmer = LinkedinJobLinkSkimmer(search_item)
 
+    print(f'Starting to collect job links for: {search_item}\n')  # Print when starting
     try:
         link_skimmer.perform_search()
-        print(f'Successfully finished collecting job links. Data stored.\n')
+        print(f'Successfully finished collecting job links for: {search_item}. Data stored.\n')  # Print when finished
     except Exception as e:
-        print(f'An error occurred while collecting links: {e}\n')
+        print(f'An error occurred while collecting links for {search_item}: {e}\n')  # Indicate search term with the error
 
 def main_job_links():
     search_items = params.search_terms
